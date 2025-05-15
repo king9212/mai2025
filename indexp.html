@@ -32,7 +32,7 @@
       box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
       padding: 20px;
       margin: 30px auto;
-      max-width: 740px; /* ajustat pentru a cuprinde pcback */
+      max-width: 740px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -103,7 +103,6 @@
 
 <div id="packages-container"></div>
 
-<!-- Particule fundal -->
 <div id="particles-js"></div>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
@@ -224,7 +223,7 @@
 
     const priceDiv = document.createElement('div');
     priceDiv.classList.add('price');
-    priceDiv.textContent = `Preț: ${packageNumber * 1000} xats`;
+    priceDiv.textContent = `Preț: 1500 xats`; // preț fixat
 
     packageDiv.appendChild(imagesDiv);
     packageDiv.appendChild(pcBackDiv);
