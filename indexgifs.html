@@ -36,7 +36,6 @@
     // İzinsiz kullanım yasaktır ve yasal işlemlere tabidir. -->
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,13 +67,6 @@
       color: white;
       text-shadow: 0 0 15px skyblue, 0 0 30px deepskyblue;
       animation: floaty 6s ease-in-out infinite;
-    }
-
-    h2 {
-      color: skyblue;
-      font-size: 36px;
-      margin-top: 50px;
-      text-shadow: 0 0 10px deepskyblue;
     }
 
     .gallery {
@@ -141,12 +133,7 @@
 <div id="particles-js"></div>
 
 <h1>Galerie GIF-uri</h1>
-
-<h2>Blufftitler Gifs</h2>
-<div id="bt-gallery" class="gallery"></div>
-
-<h2>After Effects Gifs</h2>
-<div id="af-gallery" class="gallery"></div>
+<div id="gallery" class="gallery"></div>
 
 <!-- Particles.js -->
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
@@ -199,13 +186,14 @@
     const repoName = 'mai2025';
     const gifFolder = 'gifs';
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${gifFolder}`;
-    
+
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       return data
         .filter(item => item.name.endsWith('.gif'))
+        .sort((a, b) => extractNumber(b.name) - extractNumber(a.name))
         .map(file => file.name);
     } catch (error) {
       console.error('Failed to fetch GIFs:', error);
@@ -218,18 +206,8 @@
     return match ? parseInt(match[0], 10) : 0;
   }
 
-  function categorizeAndSortGifs(gifNames) {
-    const btGifs = gifNames
-      .filter(name => name.startsWith('Bt'))
-      .sort((a, b) => extractNumber(b) - extractNumber(a));
-    const afGifs = gifNames
-      .filter(name => name.startsWith('Af'))
-      .sort((a, b) => extractNumber(b) - extractNumber(a));
-    return { btGifs, afGifs };
-  }
-
-  function createGallery(gifNames, galleryId, price, prefix) {
-    const gallery = document.getElementById(galleryId);
+  function createGallery(gifNames) {
+    const gallery = document.getElementById('gallery');
     gallery.innerHTML = '';
     gifNames.forEach((gifName) => {
       const gifItem = document.createElement('div');
@@ -241,11 +219,11 @@
 
       const name = document.createElement('div');
       name.classList.add('name');
-      name.textContent = `${prefix} (${extractNumber(gifName)})`;
+      name.textContent = `${gifName}`;
 
       const priceDiv = document.createElement('div');
       priceDiv.classList.add('price');
-      priceDiv.textContent = `Price: ${price} xats`;
+      priceDiv.textContent = `Price: 400 xats`;
 
       gifItem.appendChild(img);
       gifItem.appendChild(name);
@@ -256,9 +234,7 @@
 
   async function loadGifs() {
     const gifNames = await fetchGifs();
-    const { btGifs, afGifs } = categorizeAndSortGifs(gifNames);
-    createGallery(btGifs, 'bt-gallery', 300, 'Bt');
-    createGallery(afGifs, 'af-gallery', 500, 'Af');
+    createGallery(gifNames);
   }
 
   loadGifs();
@@ -266,3 +242,4 @@
 
 </body>
 </html>
+
