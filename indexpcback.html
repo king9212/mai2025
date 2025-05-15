@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galerie Imagini PcBack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(135deg, #000428, #004e92);
+      font-family: 'Dancing Script', cursive;
+      color: white;
+      text-align: center;
+      overflow-y: auto;
+    }
+
+    h1 {
+      margin-top: 80px;
+      font-size: 80px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 15px skyblue, 0 0 30px deepskyblue;
+      animation: floaty 6s ease-in-out infinite;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin: 40px 20px 0 20px;
+    }
+
+    .gallery-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 2px solid skyblue;
+      padding: 12px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      box-shadow: 0 0 15px skyblue;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s;
+      width: 740px;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px deepskyblue;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .gallery-item img {
+      width: 728px;
+      height: 486px;
+      border-radius: 10px;
+      transition: opacity 0.5s ease;
+    }
+
+    .gallery-item img:hover {
+      opacity: 0.8;
+    }
+
+    .name, .price {
+      margin-top: 10px;
+      font-size: 28px;
+      font-weight: bold;
+      color: skyblue;
+      text-shadow: 0 0 10px skyblue;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Galerie Imagini PcBack</h1>
+  <div id="pcback-gallery" class="gallery"></div>
+
+  <script>
+    // Repository info (updated)
+    const repoOwner = "sephirothcoding";
+    const repoName = "dedonew2025";
+
+    function loadImages() {
+      const imageNames = [
+        'pcback1.png',
+        'pcback2.png',
+        'pcbackgif1.gif',
+        'pcbackgif2.gif'
+      ];
+
+      const gallery = document.getElementById('pcback-gallery');
+      gallery.innerHTML = ''; // Golim galeria
+
+      imageNames.forEach((imageName) => {
+        const imgItem = document.createElement('div');
+        imgItem.classList.add('gallery-item');
+
+        const img = document.createElement('img');
+        img.src = `pcback/${imageName}`;
+        img.alt = imageName;
+
+        img.onload = function() {
+          const name = document.createElement('div');
+          name.classList.add('name');
+          name.textContent = `Exclusiv ${imageName.replace(/\.(png|gif)$/, '')}`;
+
+          const price = document.createElement('div');
+          price.classList.add('price');
+          if (imageName.endsWith('.png')) {
+            price.textContent = 'Price: 600 xats';
+          } else if (imageName.endsWith('.gif')) {
+            price.textContent = 'Price: 1500 xats';
+          }
+
+          imgItem.appendChild(img);
+          imgItem.appendChild(name);
+          imgItem.appendChild(price);
+          gallery.appendChild(imgItem);
+        };
+
+        img.onerror = function() {
+          console.log(`File not found: ${imageName}`);
+        };
+      });
+    }
+
+    loadImages();
+  </script>
+
+</body>
+</html>
