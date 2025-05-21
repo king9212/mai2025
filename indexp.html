@@ -32,7 +32,7 @@
       box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
       padding: 20px;
       margin: 30px auto;
-      max-width: 740px;
+      max-width: 740px; /* ajustat pentru a cuprinde pcback */
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -57,8 +57,8 @@
     }
 
     .pstylegif-img {
-      width: 380px;
-      height: 100px;
+      width: 570px; /* dimensiunea mare pentru pstyle */
+      height: 150px; /* dimensiunea mare pentru pstyle */
       border-radius: 10px;
     }
 
@@ -103,6 +103,7 @@
 
 <div id="packages-container"></div>
 
+<!-- Particule fundal -->
 <div id="particles-js"></div>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
@@ -150,8 +151,8 @@
 
 <script>
   async function fetchPackageFiles() {
-    const repoOwner = 'king9212';
-    const repoName = 'mai2025';
+    const repoOwner = 'sephirothcoding';
+    const repoName = 'dedo';
     const packageFolder = 'pachete';
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${packageFolder}`;
 
@@ -223,7 +224,7 @@
 
     const priceDiv = document.createElement('div');
     priceDiv.classList.add('price');
-    priceDiv.textContent = `Preț: 1500 xats`; // preț fixat
+    priceDiv.textContent = `Preț: ${packageNumber * 1000} xats`;
 
     packageDiv.appendChild(imagesDiv);
     packageDiv.appendChild(pcBackDiv);
