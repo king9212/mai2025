@@ -32,7 +32,7 @@
       box-shadow: 0 0 20px rgba(30, 144, 255, 0.5);
       padding: 20px;
       margin: 30px auto;
-      max-width: 740px; /* ajustat pentru a cuprinde pcback */
+      max-width: 740px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -57,8 +57,8 @@
     }
 
     .pstylegif-img {
-      width: 570px; /* dimensiunea mare pentru pstyle */
-      height: 150px; /* dimensiunea mare pentru pstyle */
+      width: 570px;
+      height: 150px;
       border-radius: 10px;
     }
 
@@ -103,7 +103,6 @@
 
 <div id="packages-container"></div>
 
-<!-- Particule fundal -->
 <div id="particles-js"></div>
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 <script>
@@ -157,7 +156,7 @@
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${packageFolder}`;
 
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(apiUrl, { cache: "no-store" });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       return data.filter(item => item.name.endsWith('.gif')).map(file => file.name);
@@ -168,6 +167,9 @@
   }
 
   function groupFilesByPackage(files) {
+    const timestamp = Date.now();
+    const baseURL = 'https://raw.githubusercontent.com/king9212/mai2025/main/pachete/';
+
     const packages = {};
     files.forEach(file => {
       const match = file.match(/(gif|pcbackgif|pstylegif)(\d+)/);
@@ -177,11 +179,11 @@
         if (!packages[number]) {
           packages[number] = {};
         }
-        packages[number][type] = `https://raw.githubusercontent.com/sephirothcoding/dedo/main/pachete/${file}`;
+        packages[number][type] = `${baseURL}${file}?v=${timestamp}`;
       }
     });
 
-    return Object.fromEntries(Object.entries(packages).filter(([key, value]) =>
+    return Object.fromEntries(Object.entries(packages).filter(([_, value]) =>
       value.gif || value.pcbackgif || value.pstylegif
     ));
   }
