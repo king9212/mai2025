@@ -94,14 +94,17 @@
         const response = await fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`);
         const files = await response.json();
 
-        const imageFiles = files.filter(file => /\.(png|gif)$/i.test(file.name));
+        // Remove filter for image extensions
+        // const imageFiles = files.filter(file => /\.(png|gif)$/i.test(file.name));
 
-        for (const file of imageFiles) {
+        for (const file of files) {
+          // Display all files in the folder
           const tempImg = new Image();
           tempImg.src = file.download_url;
 
           await new Promise(resolve => {
             tempImg.onload = () => {
+              // Adjust dimensions based on image size
               const isLarge = tempImg.naturalWidth >= 570 && tempImg.naturalHeight >= 150;
 
               const imgItem = document.createElement('div');
