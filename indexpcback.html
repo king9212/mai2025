@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -56,8 +56,8 @@
       height: 486px;
       border-radius: 10px;
       transition: opacity 0.5s ease;
-      object-fit: contain;
       background: black;
+      object-fit: contain;
     }
 
     .gallery-item img:hover {
@@ -99,7 +99,7 @@
 
         const imageFiles = files.filter(file => /\.(png|gif)$/i.test(file.name));
 
-        for (const file of imageFiles) {
+        imageFiles.forEach(file => {
           const imgItem = document.createElement('div');
           imgItem.classList.add('gallery-item');
 
@@ -113,17 +113,13 @@
 
           const price = document.createElement('div');
           price.classList.add('price');
-          if (file.name.endsWith('.png')) {
-            price.textContent = 'Price: 600 xats';
-          } else if (file.name.endsWith('.gif')) {
-            price.textContent = 'Price: 1500 xats';
-          }
+          price.textContent = file.name.toLowerCase().endsWith('.png') ? 'Price: 600 xats' : 'Price: 1500 xats';
 
           imgItem.appendChild(img);
           imgItem.appendChild(name);
           imgItem.appendChild(price);
           gallery.appendChild(imgItem);
-        }
+        });
       } catch (error) {
         console.error('Eroare la încărcarea imaginilor:', error);
       }
